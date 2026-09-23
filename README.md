@@ -6,6 +6,22 @@ API REST para gestão de uma única barbearia. O backend é um monólito modular
 
 Consulte [backend/README.md](backend/README.md) para instalar dependências, iniciar a API e executar as verificações. As regras e decisões da V1 estão em [docs/README.md](docs/README.md), e a sequência das tasks está em [docs/09-plano-implementacao.md](docs/09-plano-implementacao.md).
 
+## PostgreSQL local
+
+O Docker Compose sobe somente o PostgreSQL; o NestJS continua executado localmente. Antes da primeira inicialização, copie `.env.example` para `.env` na raiz e preencha `POSTGRES_PASSWORD` com uma senha local. `POSTGRES_PORT` pode ser alterada se a porta `5432` já estiver em uso. A porta fica acessível apenas em `127.0.0.1`.
+
+```bash
+cp .env.example .env
+# Edite .env e defina POSTGRES_PASSWORD
+docker compose up -d
+docker compose ps
+docker compose exec postgres pg_isready -U barbearia -d barbearia_db
+```
+
+Para confirmar uma conexão SQL, use `docker compose exec postgres psql -U barbearia -d barbearia_db -c 'SELECT 1;'`. Se alterar `POSTGRES_USER` ou `POSTGRES_DB` no `.env`, ajuste também esses comandos.
+
+Para parar sem apagar os dados, execute `docker compose stop`. Para remover o contêiner e a rede, preservando o volume, execute `docker compose down`. O volume `postgres_data` mantém os dados entre reinícios. As variáveis de criação de usuário, senha e banco são aplicadas apenas quando o volume está vazio; alterá-las no `.env` depois não modifica o banco existente.
+
 ## Estrutura
 
 ```text
