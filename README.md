@@ -22,6 +22,8 @@ Para confirmar uma conexão SQL, use `docker compose exec postgres psql -U barbe
 
 Para parar sem apagar os dados, execute `docker compose stop`. Para remover o contêiner e a rede, preservando o volume, execute `docker compose down`. O volume `postgres_data` mantém os dados entre reinícios. As variáveis de criação de usuário, senha e banco são aplicadas apenas quando o volume está vazio; alterá-las no `.env` depois não modifica o banco existente.
 
+O backend usa `barbearia_db` em desenvolvimento e `barbearia_test` nos testes. Consulte o [README do backend](backend/README.md) para criar o banco de teste, configurar os arquivos `.env` locais e gerar o Prisma Client.
+
 ## Estrutura
 
 ```text
