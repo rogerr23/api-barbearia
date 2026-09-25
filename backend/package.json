@@ -9,8 +9,9 @@
     "build": "nest build",
     "prisma:validate": "prisma validate",
     "prisma:generate": "prisma generate",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:test:migrate": "node --env-file=.env.test scripts/migrar-banco-teste.mjs",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.mjs\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -22,8 +23,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:integration": "NODE_ENV=test jest --config ./test/jest-integration.json",
-    "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json"
+    "test:integration": "npm run db:test:migrate && NODE_ENV=test jest --config ./test/jest-integration.json",
+    "test:e2e": "npm run db:test:migrate && NODE_ENV=test jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

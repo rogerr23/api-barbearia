@@ -40,6 +40,8 @@ Cada migration deve ser pequena, revisável e compatível com dados existentes. 
 
 Prisma Migrate permite editar o SQL gerado. Use SQL explícito quando a regra exigir índice parcial ou constraint que o schema não expresse diretamente.
 
+Na migration inicial de contas, `CHECK`s exigem e-mail normalizado, campos obrigatórios não vazios, comissão entre 0 e 100 e `primeiroAcesso` apenas para Barbeiro. Triggers impedem vincular `Cliente` ou `Barbeiro` a `Usuario` de perfil diferente e impedem mudar o perfil de um `Usuario` já vinculado de forma incompatível. A criação conjunta de `Usuario` e perfil específico continua transacional no Service.
+
 ## 4. Concorrência de Agendamento
 
 Como todos os Serviços ocupam um slot de 30 minutos, a proteção de dupla reserva pode usar um índice único parcial equivalente a:

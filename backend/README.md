@@ -21,10 +21,11 @@ cd backend
 npm ci
 npm run prisma:validate
 npm run prisma:generate
+npx prisma migrate deploy
 npm run start:dev
 ```
 
-Verifique a inicialização em `GET http://localhost:3000/saude`, que retorna `{ "status": "ok" }`. O Prisma conecta ao banco durante a inicialização. Nesta task ainda não há modelos nem migrations; a primeira migration entra na Task 04.
+`prisma migrate deploy` aplica as migrations pendentes em `barbearia_db` sem apagar dados. Verifique a inicialização em `GET http://localhost:3000/saude`, que retorna `{ "status": "ok" }`. O Prisma conecta ao banco durante a inicialização.
 
 ## Verificações
 
@@ -38,4 +39,4 @@ npm run typecheck
 npm run build
 ```
 
-O teste de integração e o teste HTTP usam `.env.test` e `barbearia_test`. O banco de desenvolvimento nunca deve ser usado para testes. Use `npm run format` ou `npm run lint:fix` para corrigir estilo durante o desenvolvimento.
+O teste de integração e o teste HTTP aplicam as migrations pendentes em `barbearia_test` antes de iniciar. O comando `npm run db:test:migrate` verifica `NODE_ENV=test` e exige nome de banco terminado em `_test`, evitando migrations de teste em `barbearia_db`. Use `npm run format` ou `npm run lint:fix` para corrigir estilo durante o desenvolvimento.
