@@ -9,7 +9,7 @@
 - Relacionamentos importantes não são removidos em cascata de forma destrutiva.
 - Campos opcionais aparecem como nulos somente quando o caso de negócio realmente permite.
 - `Servico.duracao_minutos` permanece explícito, mas na V1 só aceita o valor `30`.
-- `RecuperacaoSenha` serve aos três perfis: Cliente, Barbeiro e Administrador.
+- `RecuperacaoSenha` permanece no schema por ter entrado na migration inicial já aplicada; não é usada pela V1.
 - O Administrador é representado diretamente por `Usuario`; não há tabela própria de Administrador.
 - Atendimento avulso de pessoa sem conta não gera `Cliente` fictício.
 
@@ -245,8 +245,7 @@ Campos sem marcação explícita de nulabilidade no Mermaid devem seguir as regr
 - `Atendimento.barbeiro_id` e `servico_id` são obrigatórios.
 - `Atendimento.agendamento_id` é único quando informado.
 - `Atendimento.forma_pagamento` pode ser nulo apenas quando `valor_total = 0`.
-- `RecuperacaoSenha.utilizado_em` é nulo até o uso.
-- `RecuperacaoSenha.token_hash` guarda somente o hash de um token aleatório; o token em texto puro não é persistido.
+- `RecuperacaoSenha` não recebe novos registros na V1. O desenho físico existente será reavaliado quando a recuperação de senha for definida para uma versão posterior.
 - Percentuais ficam entre 0 e 100; valores monetários não podem ser negativos.
 - Horas iniciais devem ser menores que horas finais.
 - Cada `Agendamento` ocupa um único intervalo `[hora_inicio, hora_fim)` de 30 minutos, mesmo para `Corte + Barba`.

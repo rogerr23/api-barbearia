@@ -38,6 +38,8 @@ Cada task deve ser pequena, revisável e terminar com testes proporcionais. Não
 - usar domínio em português, e-mail único e constraints;
 - gerar/revisar migration.
 
+**Nota de escopo:** `RecuperacaoSenha` foi incluída na migration inicial antes da decisão de adiar a recuperação. A tabela permanece sem uso na V1; não criar endpoints ou envio externo para utilizá-la.
+
 **Pronto quando:** migration sobe do zero e constraints são testadas.
 
 ### Task 05 — Seed seguro
@@ -52,7 +54,7 @@ Cada task deve ser pequena, revisável e terminar com testes proporcionais. Não
 - normalizar e-mail;
 - transação `Usuario + Cliente`;
 - bairro obrigatório e `409` para e-mail duplicado;
-- e-mail de boas-vindas com fake inicial e falha não bloqueante.
+- confirmação de cadastro pela resposta HTTP, sem envio de e-mail.
 
 ### Task 07 — Login e JWT
 
@@ -74,12 +76,9 @@ Cada task deve ser pequena, revisável e terminar com testes proporcionais. Não
 - troca obrigatória e restrição das demais rotas;
 - testes de autorização.
 
-### Task 10 — Recuperação de senha
+### Task 10 — Adiada para depois da V1
 
-- token aleatório, hash, expiração e uso único;
-- resposta neutra;
-- e-mail via interface/fake;
-- fluxo válido para os três perfis.
+Recuperação de senha não será implementada na V1. A numeração das tasks seguintes é preservada para manter as referências existentes.
 
 ## Fase 2 — Catálogo e agenda
 
@@ -188,7 +187,7 @@ Cada task deve ser pequena, revisável e terminar com testes proporcionais. Não
 
 ### Task 25 — E2E e endurecimento
 
-- executar os quatro fluxos E2E definidos;
+- executar os três fluxos E2E definidos;
 - revisar CORS, logs, segredos e rate limiting básico;
 - comprovar migrations do zero em banco limpo;
 - revisar documentação e remover divergências.

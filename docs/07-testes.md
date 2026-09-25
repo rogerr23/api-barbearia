@@ -57,8 +57,8 @@ Unitários    maioria das regras de negócio
 - JWT contém somente `sub` e perfil necessários;
 - cada perfil é bloqueado/permitido corretamente;
 - propriedade do recurso é validada além da role;
-- token de recuperação expira e só pode ser usado uma vez;
-- solicitação de recuperação não revela existência de conta.
+- cadastro e demais mutações retornam status e mensagem adequados ao feedback imediato;
+- endpoints de recuperação de senha não são expostos na V1.
 
 ## 3. Integração
 
@@ -99,19 +99,12 @@ login → cria Barbeiro/Serviço → contrata Assinatura
 → consulta Dashboard
 ```
 
-### Recuperação
-
-```text
-solicita recuperação → usa token válido → login com nova senha
-→ reutilização do token falha
-```
-
 ## 5. Práticas
 
 - Ao corrigir bug, criar primeiro um teste que o reproduza sempre que possível.
 - Congelar/controlar o relógio em testes de antecedência e vigência.
 - Não depender da ordem dos testes.
-- Não usar rede/provedor real de e-mail; usar fake/mock observável.
+- Não depender de provedores de mensagens externas na V1.
 - Nomes de testes descrevem regra e resultado em português.
 - Fixtures financeiras usam `Decimal` e deixam a fórmula legível.
 - Testes de autorização devem provar também os acessos proibidos.

@@ -1,4 +1,4 @@
-# API, autenticação, segurança e e-mail
+# API, autenticação e segurança
 
 ## 1. Respostas HTTP
 
@@ -38,7 +38,9 @@ O backend não controla toast ou modal, mas deve permitir que o frontend apresen
 - mensagem compreensível quando necessário;
 - recurso criado/alterado quando útil.
 
-Isso vale para cadastro, login, primeiro acesso, recuperação, agendamento, reagendamento, cancelamento, Atendimento, Assinatura e operações administrativas.
+Isso vale para cadastro, login, primeiro acesso, agendamento, reagendamento, cancelamento, Atendimento, Assinatura e operações administrativas.
+
+Na V1, a interface futura mostra o resultado da operação usando a resposta HTTP. A API não envia e-mail, WhatsApp ou outra mensagem externa e não armazena notificações para exibição posterior.
 
 Exemplos de mensagens:
 
@@ -92,67 +94,21 @@ Exemplos:
 - `CLIENTE` usa `sub` do token para buscar seu `clienteId`; não escolhe outro Cliente por parâmetro.
 - `ADMINISTRADOR` pode corrigir Atendimento, mas a operação registra o Administrador autenticado, não um ID fornecido pelo corpo.
 
-## 6. Recuperação de senha
+## 6. E-mail e comunicação na V1
 
-Disponível para Cliente, Barbeiro e Administrador.
+O e-mail é coletado, normalizado e usado como identificador único de cadastro e login. Não há verificação de e-mail nem envio de boas-vindas, recuperação de senha, confirmação de Agendamento, lembrete, cancelamento, reagendamento ou resumo diário.
 
-### Solicitação
+A recuperação de senha fica para uma versão posterior. Na V1, não criar `/auth/esqueci-senha`, `/auth/redefinir-senha`, serviço de e-mail nem configuração de provedor. A tabela `RecuperacaoSenha` da migration inicial permanece sem uso; sua existência não torna o fluxo parte da V1.
 
-```text
-e-mail normalizado
-  → procurar Usuario ativo
-  → gerar token aleatório criptograficamente seguro
-  → persistir somente token_hash + expiração
-  → invalidar/limitar tokens anteriores conforme implementação
-  → enviar link por e-mail
-```
+O frontend futuro deve apresentar a resposta da API após cada ação. Isso é feedback da operação atual, sem central de notificações ou mensagens persistidas.
 
-A resposta é sempre neutra:
-
-> Se o e-mail estiver cadastrado, enviaremos as instruções para redefinição da senha.
-
-### Redefinição
-
-- validar hash, expiração e `utilizado_em`;
-- atualizar a senha com Argon2;
-- marcar token como usado;
-- executar essas alterações em uma transação;
-- token é de uso único;
-- não registrar token puro em log.
-
-O tempo de validade é configuração de ambiente, documentado em `.env.example`.
-
-## 7. E-mail na V1
-
-O módulo `email` expõe operações de intenção, sem acoplar os domínios ao provedor:
-
-```text
-EmailService.enviarBoasVindas(...)
-EmailService.enviarRecuperacaoSenha(...)
-```
-
-### Boas-vindas
-
-Depois do commit de `Usuario + Cliente`, tentar enviar a mensagem. A resposta de cadastro não deve ficar dependente do sucesso do provedor: falha de e-mail não remove a conta e é registrada tecnicamente.
-
-### Recuperação
-
-O envio é essencial para completar o fluxo. Ainda assim, a API não revela existência da conta nem detalhes do provedor. A V1 não usa fila; registrar falha de forma segura e permitir nova solicitação conforme os limites definidos.
-
-### Não pertence à V1
-
-- confirmação de Agendamento por e-mail;
-- lembretes de 1 dia e 1 hora;
-- mensagens de cancelamento/reagendamento;
-- resumo diário do Barbeiro.
-
-## 8. Outras proteções
+## 7. Outras proteções
 
 - CORS explícito por ambiente; nunca `origin: *` em produção sem justificativa.
 - `ValidationPipe` global com transformação e rejeição de propriedades não permitidas.
 - segredos somente em variáveis de ambiente; `.env` fora do Git.
 - `JWT_SECRET` forte e diferente por ambiente.
 - Swagger protegido ou desabilitado em produção conforme configuração.
-- Rate limiting de login e recuperação é recomendável, mas pode ser implementado depois do fluxo básico sem Redis.
+- Rate limiting de login é recomendável, mas pode ser implementado depois do fluxo básico sem Redis.
 - Respostas de login não distinguem e-mail inexistente de senha incorreta.
 - Desativação do Usuário impede novo login e uso autenticado.

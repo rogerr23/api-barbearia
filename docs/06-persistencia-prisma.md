@@ -63,14 +63,13 @@ Usar transações curtas nos casos:
 1. criar `Usuario + Cliente`;
 2. criar `Usuario + Barbeiro`;
 3. concluir primeiro acesso: senha + flag;
-4. redefinir senha: senha + consumo do token;
-5. criar/reagendar Agendamento sob validação concorrente;
-6. finalizar Atendimento: Atendimento + Extras + status do Agendamento;
-7. corrigir Atendimento: alteração + `CorrecaoAtendimento`;
-8. registrar `PagamentoAssinatura + período/status da Assinatura`;
-9. contratar Assinatura garantindo somente uma vigente.
+4. criar/reagendar Agendamento sob validação concorrente;
+5. finalizar Atendimento: Atendimento + Extras + status do Agendamento;
+6. corrigir Atendimento: alteração + `CorrecaoAtendimento`;
+7. registrar `PagamentoAssinatura + período/status da Assinatura`;
+8. contratar Assinatura garantindo somente uma vigente.
 
-Não chamar provedor de e-mail dentro de transação de banco. O commit da regra de negócio ocorre primeiro; o e-mail é efeito externo posterior.
+`RecuperacaoSenha` consta da migration inicial já aplicada, mas não terá fluxo nem acesso pela API na V1. A estrutura histórica não deve motivar implementação antecipada de recuperação ou envio externo.
 
 ## 6. Índices
 

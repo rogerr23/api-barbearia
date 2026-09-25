@@ -29,9 +29,6 @@ describe('Constraints das contas', () => {
     const ids = usuarios.map((usuario) => usuario.id);
     if (ids.length === 0) return;
 
-    await prisma.recuperacaoSenha.deleteMany({
-      where: { usuarioId: { in: ids } },
-    });
     await prisma.cliente.deleteMany({ where: { usuarioId: { in: ids } } });
     await prisma.barbeiro.deleteMany({ where: { usuarioId: { in: ids } } });
     await prisma.usuario.deleteMany({ where: { id: { in: ids } } });
@@ -177,24 +174,5 @@ describe('Constraints das contas', () => {
         data: { comissaoPercentual: new Prisma.Decimal('-0.01') },
       }),
     ).rejects.toThrow();
-  });
-
-  it('permite recuperação de senha do Administrador', async () => {
-    const usuario = await prisma.usuario.create({
-      data: {
-        email: proximoEmail(),
-        senhaHash: 'hash-de-teste',
-        perfil: 'ADMINISTRADOR',
-      },
-    });
-    const recuperacao = await prisma.recuperacaoSenha.create({
-      data: {
-        usuarioId: usuario.id,
-        tokenHash: `${prefixo}hash-token`,
-        expiraEm: new Date(Date.now() + 60 * 60 * 1000),
-      },
-    });
-
-    expect(recuperacao.utilizadoEm).toBeNull();
   });
 });

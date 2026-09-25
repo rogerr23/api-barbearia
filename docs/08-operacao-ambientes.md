@@ -26,12 +26,9 @@ Nunca registrar:
 
 - senha ou `senhaHash`;
 - JWT completo;
-- token de recuperação, mesmo expirado;
-- `JWT_SECRET`, credenciais do banco ou chaves do provedor;
+- `JWT_SECRET` ou credenciais do banco;
 - corpos completos que contenham segredos;
 - stack trace na resposta HTTP.
-
-Falhas de e-mail de boas-vindas são `warn/error` conforme natureza, mas não transformam cadastro confirmado em falha.
 
 ## 3. Auditoria de negócio
 
@@ -40,7 +37,7 @@ Na V1, a auditoria explícita concentra-se em:
 - quem cancelou Agendamento e quando;
 - quem registrou Pagamento de Assinatura;
 - quem corrigiu Atendimento, motivo e snapshots antes/depois;
-- timestamps de criação, atualização, finalização e uso de token.
+- timestamps de criação, atualização e finalização.
 
 Não criar uma tabela genérica de auditoria para tudo. Preservar histórico por valores copiados e desativação de cadastros.
 
@@ -62,13 +59,11 @@ O `docker-compose.yml` da raiz deve subir inicialmente apenas o PostgreSQL com v
 - logs legíveis e detalhados;
 - Swagger habilitado;
 - PostgreSQL Docker;
-- provedor de e-mail de desenvolvimento ou fake seguro.
 
 ### test
 
 - banco separado;
 - dados descartáveis;
-- provedor de e-mail fake;
 - configuração determinística;
 - migrations aplicadas antes da suíte de integração/E2E.
 
@@ -94,10 +89,6 @@ JWT_EXPIRES_IN=
 APP_TIMEZONE=
 FRONTEND_URL=
 CORS_ORIGINS=
-EMAIL_PROVIDER=
-EMAIL_FROM=
-EMAIL_API_KEY=
-RECUPERACAO_SENHA_EXPIRACAO_MINUTOS=
 ADMIN_INICIAL_EMAIL=
 ADMIN_INICIAL_SENHA=
 ```

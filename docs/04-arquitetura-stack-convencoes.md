@@ -60,7 +60,6 @@ backend/
 │   ├── planos/
 │   ├── assinaturas/
 │   ├── dashboard/
-│   ├── email/
 │   ├── prisma/
 │   ├── common/
 │   ├── config/
@@ -73,7 +72,7 @@ backend/
 
 ### Responsabilidade dos módulos
 
-- `auth`: login, JWT, primeiro acesso, alteração e recuperação de senha.
+- `auth`: login, JWT, primeiro acesso e alteração de senha autenticada.
 - `usuarios`: operações internas da conta; não expõe CRUD público genérico.
 - `clientes`: cadastro público, perfil e consultas administrativas.
 - `barbeiros`: criação administrativa, perfil, comissão e habilitações.
@@ -84,7 +83,6 @@ backend/
 - `planos`: definição do produto, cobertura, desconto e repasse.
 - `assinaturas`: contratação, pagamento manual, vigência e cancelamento.
 - `dashboard`: consultas agregadas, sem entidade `Dashboard`.
-- `email`: integração pequena com provedor de e-mail.
 - `common`: somente código realmente compartilhado, como guards, decorators, filters e enums.
 - `config`: leitura e validação de configuração externa.
 
@@ -127,8 +125,6 @@ As rotas exatas podem ser refinadas ao implementar, preservando o domínio:
 
 ```text
 POST   /auth/login
-POST   /auth/esqueci-senha
-POST   /auth/redefinir-senha
 PATCH  /auth/primeiro-acesso
 
 POST   /clientes

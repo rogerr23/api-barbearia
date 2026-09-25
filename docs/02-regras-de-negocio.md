@@ -8,7 +8,7 @@
 - **RN04 — Barbeiro:** somente Administrador cria conta de Barbeiro. A criação de `Usuario + Barbeiro` é atômica.
 - **RN05 — Primeiro acesso:** o Barbeiro nasce com senha temporária e `primeiro_acesso = true`. Até trocar a senha, só pode acessar as operações necessárias ao primeiro acesso.
 - **RN06 — Administrador:** não existe cadastro público. O Administrador inicial é criado por seed/configuração segura.
-- **RN07 — Recuperação:** Cliente, Barbeiro e Administrador podem redefinir a própria senha por e-mail.
+- **RN07 — Recuperação adiada:** a V1 não oferece fluxo de recuperação de senha; sua definição fica para uma versão posterior.
 - **RN08 — Bairro:** `Cliente.bairro` é obrigatório. CEP e endereço completo não fazem parte da V1.
 - **RN09 — Preservação:** contas relacionadas a históricos são desativadas, não apagadas fisicamente.
 
@@ -98,12 +98,12 @@
 - **RN73 — Cliente:** acessa somente seus dados, Agendamentos, Assinatura e histórico.
 - **RN74 — Origem:** métricas por bairro consideram apenas Clientes cadastrados com bairro conhecido.
 
-## 9. Feedback e e-mail
+## 9. Feedback e comunicação
 
 - **RN75 — Feedback imediato:** cadastro, agendamento, cancelamento, reagendamento e demais mutações retornam status e mensagem suficientes para o frontend mostrar sucesso ou erro imediatamente.
-- **RN76 — Boas-vindas:** após criar Cliente, o sistema tenta enviar e-mail de boas-vindas. Falha no envio não desfaz nem invalida a conta.
-- **RN77 — Recuperação discreta:** a solicitação sempre retorna mensagem neutra, sem revelar se o e-mail está cadastrado.
-- **RN78 — Escopo V1:** e-mail é usado para boas-vindas e recuperação de senha. E-mails operacionais de Agendamento são V2.
+- **RN76 — Cadastro:** criar a conta retorna confirmação pela API, sem e-mail de boas-vindas.
+- **RN77 — Recuperação:** não há solicitação ou redefinição de senha na V1.
+- **RN78 — Escopo V1:** e-mail identifica a conta no cadastro e login; não há envio de e-mail, WhatsApp ou outra mensagem externa.
 
 ## 10. Regras complementares preservadas da especificação anterior
 

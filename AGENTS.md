@@ -19,9 +19,9 @@ Decisões que nunca devem regredir:
 - Assinatura Completa custa R$ 110,00, não R$ 115,00.
 - Todo Serviço dura exatamente 30 minutos, inclusive Corte + Barba.
 - Slots têm 30 minutos; não implementar duração variável ou múltiplos slots.
-- Recuperação de senha atende Cliente, Barbeiro e Administrador.
+- Recuperação de senha está adiada para depois da V1.
 - Não existe status `EM_ANDAMENTO`.
-- E-mail operacional de Agendamento e lembretes são V2.
+- A V1 não envia e-mail, WhatsApp ou outras mensagens externas; o frontend usa a resposta da API para feedback imediato.
 - Domínio, código e endpoints são em português; termos técnicos consolidados podem ficar em inglês.
 
 ## Regras centrais
@@ -67,7 +67,6 @@ Fluxo padrão: `Controller → Service → Repository → Prisma → PostgreSQL`
 - Toda alteração de schema usa Prisma Migrate e migration revisada.
 - Use constraints/índices para integridade concorrente; traduza conflitos esperados para `409`.
 - Use transações para agregados e operações descritas em `docs/06-persistencia-prisma.md`.
-- E-mail fica fora da transação.
 - Não executar reset, apagar migration ou volume como atalho.
 - Preserve registros históricos e snapshots financeiros.
 
@@ -76,10 +75,10 @@ Fluxo padrão: `Controller → Service → Repository → Prisma → PostgreSQL`
 - Use status HTTP sem envelope global artificial.
 - Mensagens de negócio são claras e em português.
 - Nunca exponha stack trace, SQL ou detalhe do provedor.
-- Nunca registre senha, hash de senha, JWT, token de recuperação ou segredo.
+- Nunca registre senha, hash de senha, JWT ou segredo.
 - Use `/me` para recursos próprios e derive identidade do JWT.
-- Recuperação usa token aleatório, hash persistido, expiração, uso único e resposta neutra.
-- E-mail de boas-vindas é não bloqueante; falha não desfaz cadastro.
+- E-mail serve apenas como identificador de cadastro e login; não há envio de mensagens na V1.
+- Não expor endpoints de recuperação de senha na V1.
 - CORS é explícito por ambiente; segredos ficam fora do Git.
 
 ## Testes e conclusão de uma task
@@ -103,7 +102,7 @@ Antes de concluir uma task:
 
 ## Limites de autonomia
 
-- Não invente percentuais de desconto, valores de repasse, horários de funcionamento ou provedor de e-mail.
+- Não invente percentuais de desconto, valores de repasse ou horários de funcionamento.
 - Não amplie a V1 com notificações, filas, refresh token, gateway de pagamento, microserviços ou frontend.
 - Se faltar decisão que muda comportamento financeiro, segurança ou dados persistidos, pare e peça a decisão.
 - Prefira a menor mudança completa para a task atual; não implemente fases futuras por antecipação.

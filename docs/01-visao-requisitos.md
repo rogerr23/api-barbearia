@@ -63,7 +63,7 @@ O backend é o escopo imediato. O frontend será criado futuramente, mas a API d
 | RF04 | Permitir ao Cliente e ao Barbeiro consultar e atualizar os próprios dados autorizados. |
 | RF05 | Permitir ao Administrador criar, editar, ativar e desativar contas de Barbeiro. |
 | RF06 | Criar Barbeiro com senha temporária e exigir nova senha no primeiro acesso. |
-| RF07 | Permitir recuperação de senha por e-mail para Cliente, Barbeiro e Administrador. |
+| RF07 | Adiado para depois da V1: recuperação de senha. Não implementar endpoints de recuperação nesta versão. |
 | RF08 | Permitir logout no cliente consumidor; na API stateless da V1, o token deixa de ser usado pelo cliente. |
 
 ### Serviços e agenda
@@ -144,6 +144,7 @@ O backend é o escopo imediato. O frontend será criado futuramente, mas a API d
 - frontend implementado;
 - refresh token e revogação centralizada de access tokens;
 - verificação obrigatória do e-mail para ativar cadastro;
+- envio de e-mail de boas-vindas e recuperação de senha;
 - pagamentos online, gateway e pagamento dividido;
 - lembretes ou notificações de agendamento;
 - resumo diário por e-mail para Barbeiro;
@@ -154,4 +155,4 @@ O backend é o escopo imediato. O frontend será criado futuramente, mas a API d
 - histórico separado de reagendamentos;
 - status `EM_ANDAMENTO`.
 
-Notificações de confirmação, lembrete de 1 dia, lembrete de 1 hora, cancelamento/reagendamento e resumo diário ficam planejadas para a V2.
+Na V1, o e-mail é apenas identificador de cadastro e login. Cadastro, agendamento e demais operações retornam resultado pela API para feedback na interface futura. Envios externos e recuperação de senha ficam para uma versão posterior, sem fluxo ou prazo definidos nesta fase.
